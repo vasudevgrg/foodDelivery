@@ -10,10 +10,10 @@ const SignUpPage = () => {
     const handleSignup=()=>{
         fetch("http://localhost:5002/user/signup", {
             method:"post",
-            body:{
+            body:JSON.stringify({
                 "username":username,
                 "password": password
-            },
+            }),
             headers:{
                 'Content-Type':'application/json'   
             }
@@ -31,6 +31,7 @@ const SignUpPage = () => {
  {/* <FullWidthTextField inputName="Email Address"/>
  <FullWidthTextField inputName="Password" /> */}
  <input onChange={e=>setUsername(e.target.value)} />
+ <input onChange={e=>setPassword(e.target.value)} />
 
  <button style={{width:"500px", height:"50px", backgroundColor:"orange",color:"white", fontWeight:"bold", border:"none", }} onClick={handleSignup}>SIGN UP</button>
     </div>

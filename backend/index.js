@@ -8,6 +8,7 @@ const path= require("path");
 const session= require("express-session");
 const passport= require("passport");
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const transporter= require("./middleware/transporter");
 
 require("dotenv").config();
 
@@ -186,19 +187,11 @@ passport.serializeUser(function(user, cb) {
     res.status(201).send({"items":allItems});
   });
 
-  app.get("/user/addtocart/:id", async (req, res)=>{
-    const id= req.params.id;
-    try{
-        const user=await Food.findOne({"token": req.headers.token});
-await FoodUser.findOneAndUpdate({"token": req.headers.token}, {"currOrder":[...user.currOrder,{"product_id": id, "count":1}]});
-res.status(201).send({"message":"cart updated"});
-    }catch{
-        res.status(401).send({"message":"error occured"});
-    }
-  });
+
 
   app.post("/user/signup", async (req, res)=>{
-    const uniqueNum= Math.abs(Math.random()*10000);
+    const uniqueNum= Math.trunc(Math.random()*10000);
+    console.log(process.env.jwttoken);
     const token=jwt.sign( {username:req.body.username},process.env.jwttoken);
     const user= new FoodUser({
         "username": req.body.username,
@@ -212,9 +205,9 @@ res.status(201).send({"message":"cart updated"});
 
     transporter.sendMail({
         from: 'vasudevgarg7@gmail.com',
-        to: req.headers.username,
+        to: req.body.username,
         subject: 'This is verification mail for Food Delivery Website.',
-       html: `<a href:http:localhost:5002/user/verify/${uniqueNum}>Press Here</a>`
+       html: '<a href:"http:localhost:5002/user/verify/'+uniqueNum+'">Press Here</a>'
       }, function(error, info){
         if (error) {
           console.log(error);
@@ -235,6 +228,17 @@ app.get("/user/verify/:uniqueNum", async (req, res)=>{
     }else{
         res.status(401).send({"message":"verification failed"});
     }
-})
+});
+
+app.get("/user/addtocart/:id", async (req, res)=>{
+  const id= req.params.id;
+  try{
+      const user=await Food.findOne({"token": req.headers.token});
+await FoodUser.findOneAndUpdate({"token": req.headers.token}, {"currOrder":[...user.currOrder,{"product_id": id, "count":1}]});
+res.status(201).send({"message":"cart updated"});
+  }catch{
+      res.status(401).send({"message":"error occured"});
+  }
+});
 
 app.listen(5002, ()=>console.log("listening to 5002"));
