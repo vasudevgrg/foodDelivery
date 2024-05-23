@@ -1,23 +1,31 @@
 import React from 'react';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import manageAddToCart from '../reducers/manageAddtoCart';
+import { updateCart } from '../actions';
 
 const MainCard = ({title, description, price, url,id}) => {
     
 const [showAddtocart, setShowAddtocart]= React.useState(true);
+const allMenuItems= useSelector(e=>e.manageAddToCart);
 const dispatch= useDispatch();
+console.log(allMenuItems);
 const handleAddToCart=(id)=>{
+    const value=allMenuItems.filter(e=>e._id===id);
+    console.log(value);
     fetch(`http://localhost:5002/user/addtocart/${id}`, {
         "method":"get",
         headers:{
             'Content-Type':'application/json',
             'token':localStorage.getItem("token")   
         }
-    }).then(e=>e.json()).then(e=>{console.log(e); });
+    }).then(e=>e.json()).then(e=>{console.log(e);
+         dispatch(updateCart({"item":value[0], "count":1}));
+        });
     setShowAddtocart(false);
     
-fetch()
+
 }
 
   return (

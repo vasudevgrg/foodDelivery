@@ -135,13 +135,13 @@ await newItem.save();
 })
 
 
-app.post("/login", async(req, res)=>{
+app.post("/user/login", async(req, res)=>{
     const {username, password}= req.body;
-    let user=await FoodUser.findOne({username: req.body.username});
+    let user=await FoodUser.findOne({username: username});
 
     if(user){
-        if(user.password== req.body.password){
-            res.status(201).send({"message":"login successful"});
+        if(user.password== password){
+            res.status(201).send({"message":"login successful", "token": user.token});
         }else{
             res.status(401).json({"message":"invalid Password"});
         }

@@ -16,7 +16,8 @@ const LandingPage = () => {
     const dispatch= useDispatch();
   
     React.useEffect(()=>{
-        fetch("http://localhost:5002/user/menu").then(e=>e.json()).then(e=>e.items.map(ei=>dispatch(addItemToCart(ei))));
+      fetch("http://localhost:5002/user/menu").then(e=>e.json()).then(e=>console.log(e));
+        fetch("http://localhost:5002/user/menu").then(e=>e.json()).then(e=>e.items.map(ei=>ei.items.map(eii=>{dispatch(addItemToCart(eii));console.log(eii);})));
     },[]);
 
     const modalStatus= useSelector(e=>e.manageModal);

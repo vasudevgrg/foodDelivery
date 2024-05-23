@@ -5,8 +5,9 @@ import { Button } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 import { useDispatch } from 'react-redux';
 import { changeModalState } from '../actions';
-
+import {useNavigate} from "react-router-dom";
 const Navbar = () => {
+    const navigate= useNavigate();
     const style={
         img:{
             width:"50px",
@@ -23,10 +24,17 @@ const Navbar = () => {
             flexDirection:"row"
         },
         list:{
-            display:"flex",
-            flexDirection:"row",
-            listStyleType:"none",
-            margin:"10px"
+            // display:"flex",
+            // flexDirection:"row",
+            // justifyContent:"space-between",
+            // listStyleType:"none",
+            // margin:"10px",
+            // padding:"10px",
+            // border:"10px"
+            display:"inline-block",
+             listStyleType:"none",
+            padding:"10px 40px"
+
         }
     }
 
@@ -42,18 +50,18 @@ const Navbar = () => {
             <h3>Anna From South</h3>
         </div>
         <div>
-            <ul style={style.list}>
-                <li>Home</li>
-                <li>Menu</li>
-                <li>Services</li>
-                <li>About us</li>
-                <li>Contact us</li>
+            <ul >
+                <li style={style.list}>Home</li>
+                <li style={style.list}>Menu</li>
+                <li style={style.list}>Services</li>
+                <li style={style.list}>About us</li>
+                <li style={style.list}>Contact us</li>
                 <ShoppingBasketIcon/>
             </ul>
         </div>
         <div>
             <Button onClick={handleAddFoodItem}>Add Food Item</Button>
-        <Button variant="outlined" startIcon={<LoginIcon />}>
+        <Button variant="outlined" startIcon={<LoginIcon />} onClick={ ()=>{console.log("hello");navigate("/login")}}>
   Login
 </Button>
         </div>

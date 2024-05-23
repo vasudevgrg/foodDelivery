@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
-export default function FullWidthTextField({inputName}) {
+export default function FullWidthTextField({inputName, handleChange}) {
   return (
     <Box
       sx={{
@@ -13,7 +13,7 @@ export default function FullWidthTextField({inputName}) {
         
       }}
     >
-      <TextField fullWidth label={inputName} id="fullWidth" onChange={(e)=>console.log(e.target.value)} />
+      <TextField fullWidth label={inputName} id="fullWidth" onChange={(e)=>handleChange(e.target.value)} />
     </Box>
   );
 }
