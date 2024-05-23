@@ -11,7 +11,9 @@ const LoginPage = () => {
 const navigate= useNavigate();
 
   const handleGoogleLogin=()=>{
-    fetch("http://localhost:5002/auth/google");
+    fetch("http://localhost:5002/auth/google", {
+      method:"get"
+    }).then(e=>console.log(e));
   }
 
   const handleLogin=()=>{
