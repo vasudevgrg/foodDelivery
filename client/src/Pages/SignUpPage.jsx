@@ -17,7 +17,7 @@ const SignUpPage = () => {
             headers:{
                 'Content-Type':'application/json'   
             }
-        }).then(e=>e.json()).then(e=>console.log(e));
+        }).then(e=>e.json()).then(e=>{console.log(e); localStorage.setItem("token", e.token)});
     }
   return (
     <>

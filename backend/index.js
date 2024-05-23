@@ -203,17 +203,20 @@ passport.serializeUser(function(user, cb) {
     });
     await user.save();
 
+    const verificationLink = `http://localhost:5002/user/verify/${uniqueNum}`;
+
     transporter.sendMail({
         from: 'vasudevgarg7@gmail.com',
         to: req.body.username,
         subject: 'This is verification mail for Food Delivery Website.',
-       html: '<a href:"http:localhost:5002/user/verify/'+uniqueNum+'">Press Here</a>'
+        html: `<a href="${verificationLink}">Press Here</a> or visit ${verificationLink}`
       }, function(error, info){
         if (error) {
           console.log(error);
         } else {
           console.log('Email sent: ' + info.response);
-          res.status(201).json({"message": "Mail sent. Waiting for conformation"});
+        
+          res.status(201).json({"message": "Mail sent. Waiting for conformation", "token": token});
         }
       });
   });
@@ -221,10 +224,11 @@ passport.serializeUser(function(user, cb) {
 app.get("/user/verify/:uniqueNum", async (req, res)=>{
     const num= req.params.uniqueNum;
 
-    const user= await FoodUser.find({"uniqueNum":num});
+    const user= await FoodUser.findOne({"uniqueNum":num});
 
     if(user){
-        res.json({"message":"signUp successful", "token":user.token});
+        res.redirect("http://localhost:3000/");
+        // res.json({"message":"signUp successful", "token":user.token});
     }else{
         res.status(401).send({"message":"verification failed"});
     }
@@ -233,7 +237,9 @@ app.get("/user/verify/:uniqueNum", async (req, res)=>{
 app.get("/user/addtocart/:id", async (req, res)=>{
   const id= req.params.id;
   try{
-      const user=await Food.findOne({"token": req.headers.token});
+    console.log(req.headers.token);
+      const user=await FoodUser.findOne({"token": req.headers.token});
+      console.log(user);
 await FoodUser.findOneAndUpdate({"token": req.headers.token}, {"currOrder":[...user.currOrder,{"product_id": id, "count":1}]});
 res.status(201).send({"message":"cart updated"});
   }catch{

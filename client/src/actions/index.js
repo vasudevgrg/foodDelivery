@@ -10,3 +10,10 @@ export const addItemToCart=(payload)=>{
         payload: payload
     }
 }
+
+export const updateCart=(payload)=>{
+    return {
+        type:"updateCart",
+        payload: payload
+    }
+}

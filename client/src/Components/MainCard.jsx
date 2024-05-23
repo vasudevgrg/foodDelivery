@@ -1,9 +1,7 @@
 import React from 'react';
-import { StrawberryImg } from './exportImages';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useDispatch } from 'react-redux';
-import manageAddToCart from '../reducers/manageAddtoCart';
 
 const MainCard = ({title, description, price, url,id}) => {
     
@@ -18,7 +16,8 @@ const handleAddToCart=(id)=>{
         }
     }).then(e=>e.json()).then(e=>{console.log(e); });
     setShowAddtocart(false);
-    fetch("http://localhost:5002/user/menu").then(e=>e.json()).then(e=>e.items.map(ei=>dispatch(manageAddToCart(ei))));
+    
+fetch()
 }
 
   return (
