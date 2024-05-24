@@ -1,0 +1,23 @@
+.navbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: top;
+}
+.body{
+    background-color: white;
+    border: 1px solid black;
+    position: relative;
+    z-index: 10;
+    height: 100vh;
+    width: 20vw;
+}
+.microCardBody{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.counter{
+    
+}
