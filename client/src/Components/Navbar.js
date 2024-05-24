@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {chefLogo} from './exportImages';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import { Button } from '@mui/material';
@@ -6,8 +6,12 @@ import LoginIcon from '@mui/icons-material/Login';
 import { useDispatch } from 'react-redux';
 import { changeModalState } from '../actions';
 import {useNavigate} from "react-router-dom";
+import { useSelector } from 'react-redux';
+import { updateCart, addItemToCart } from '../actions';
 const Navbar = () => {
     const navigate= useNavigate();
+    const dispatch= useDispatch();
+    const cartItems= useSelector(e=>e.manageUpdateCart);
     const style={
         img:{
             width:"50px",
@@ -35,10 +39,28 @@ const Navbar = () => {
              listStyleType:"none",
             padding:"10px 40px"
 
+        },
+        wrapper:{
+            position:"relative",
+            display:"inline-block",
+             listStyleType:"none",
+            
+        },
+        superscript:{
+            position:"absolute",
+            top:"-2px",
+            right:"-2px",
+            background:"red",
+            padding:"1px",
+            borderRadius:"50%"
         }
     }
 
-    const dispatch= useDispatch();
+useEffect(()=>{
+    fetch("http://localhost:5002/user/menu").then(e=>e.json()).then(e=>e.items.map(ei=>ei.items.map(eii=>dispatch(addItemToCart(eii)))));
+    fetch("http://localhost:5002/user/cartItems", {method:"get", headers:{"token":localStorage.getItem("token")}}).then(e=>e.json()).then(e=>dispatch(updateCart(e.cartItems)))
+},[]);
+
     const handleAddFoodItem=()=>{
         dispatch(changeModalState());
     }
@@ -56,7 +78,11 @@ const Navbar = () => {
                 <li style={style.list}>Services</li>
                 <li style={style.list}>About us</li>
                 <li style={style.list}>Contact us</li>
+                <div style={style.wrapper}>
                 <ShoppingBasketIcon/>
+                <span style={style.superscript}>{cartItems.length}</span>
+                </div>
+                
             </ul>
         </div>
         <div>

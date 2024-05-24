@@ -9,20 +9,19 @@ const MainCard = ({title, description, price, url,id}) => {
     
 const [showAddtocart, setShowAddtocart]= React.useState(true);
 const allMenuItems= useSelector(e=>e.manageAddToCart);
+const cartItems= useSelector(e=>e.manageUpdateCart);
 const dispatch= useDispatch();
-console.log(allMenuItems);
+
 const handleAddToCart=(id)=>{
-    const value=allMenuItems.filter(e=>e._id===id);
-    console.log(value);
+    // const value=allMenuItems.filter(e=>e._id===id);
+    // console.log(value);
     fetch(`http://localhost:5002/user/addtocart/${id}`, {
         "method":"get",
         headers:{
             'Content-Type':'application/json',
             'token':localStorage.getItem("token")   
         }
-    }).then(e=>e.json()).then(e=>{console.log(e);
-         dispatch(updateCart({"item":value[0], "count":1}));
-        });
+    }).then(()=>fetch("http://localhost:5002/user/cartItems", {method:"get", headers:{"token":localStorage.getItem("token")}}).then(e=>e.json()).then(e=>dispatch(updateCart(e.cartItems)))).then(()=>console.log(cartItems));
     setShowAddtocart(false);
     
 

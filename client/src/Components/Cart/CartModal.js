@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import MicroCard from './MicroCard';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
@@ -7,8 +7,22 @@ import './Cart.css';
 import { useSelector } from 'react-redux';
 
 const CartModal = () => {
+    const [newitems, setNewitems]= React.useState([]);
     const cartItems= useSelector(e=>e.manageUpdateCart);
-    console.log(cartItems);
+    const menuItems= useSelector(e=>e.manageAddToCart);
+
+
+
+    useEffect(()=>{
+        cartItems.map(e=>{
+           const arr= menuItems.filter(ei=>ei._id==e.product_id);
+           setNewitems([...newitems, arr[0]]);
+           console.log(newitems);
+        })
+    },[]);
+
+console.log(newitems);
+ 
   return (
     <>
     <div className='body'>
@@ -19,7 +33,7 @@ const CartModal = () => {
         </div>
         <div>
             <div>
-             {cartItems.map( foodItem=>  <MicroCard foorItem={foodItem}/>)}
+             {newitems.map( foodItem=>{  <MicroCard foorItem={foodItem}/>; console.log(foodItem);})}
             </div>
             <div>
                 //total
