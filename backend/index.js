@@ -19,7 +19,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"],
     credentials: true,
   })
@@ -286,7 +286,7 @@ app.get("/user/incrementcount/:productid", async (req, res) => {
   res.send({ message: "counter incremented" });
 });
 
-app.get("/user/incrementcount/:productid", async (req, res) => {
+app.get("/user/decrementcount/:productid", async (req, res) => {
   const product_id = req.params.productid;
   const user = await FoodUser.findOne({ token: req.headers.token });
   const currOrder = user.currOrder;
@@ -295,8 +295,10 @@ app.get("/user/incrementcount/:productid", async (req, res) => {
   );
 
   if (newCurrOrderItem.count == 1) {
+    console.log("count is one");
     let newarr = currOrder.filter((e) => e != newCurrOrderItem);
-    await FoodUser.updateOne({ currOrder: newarr });
+    console.log(newarr);
+    await FoodUser.updateOne({"token": req.headers.token},{ currOrder: newarr });
   } else {
     newCurrOrderItem.count--;
     await FoodUser.updateOne({ currOrder: currOrder });

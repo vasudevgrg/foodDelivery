@@ -10,7 +10,7 @@ const dispatch=useDispatch();
 
 useEffect(() => {
     const cartItem = cartItems.find(item => item.product_id === foodItem._id);
-    console.log(cartItem);
+    
     if (cartItem) {
         setCount(cartItem.count);
     }

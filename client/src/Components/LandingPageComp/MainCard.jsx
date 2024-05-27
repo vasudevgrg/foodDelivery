@@ -15,8 +15,6 @@ useEffect(()=>{
     if(cartItems.find(e=>e.product_id==id)){
         setShowAddtocart(false);
     }
-    console.log("add item to cart");
-    console.log(cartItems);
 },[]);
 const dispatch= useDispatch();
 
@@ -39,7 +37,7 @@ const handleAddToCart=(id)=>{
    <>
    <div  style={{maxWidth:"300px",maxHeight:"400px", border:"1px solid black", padding:"20px", margin:"20px"}}>
    <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", alignItems:"center"}}>
-    <img  src={"http://localhost:5002/image/"+url} style={{width:"200px", height:"160px", objectFit:"cover", position:"relative",top:"-50px", zIndex:"99"}}/>
+    <img  src={"http://localhost:5002/image/"+url} style={{width:"200px", height:"160px", objectFit:"cover", position:"relative",top:"-50px", zIndex:"-1"}}/>
 { showAddtocart &&   <AddShoppingCartIcon style={{background:"red", height:"50px", width:"50px", padding:"10px", borderRadius:"30px"}} onClick={()=>handleAddToCart(id)} />}
 { !showAddtocart &&   <ShoppingCartIcon style={{background:"green", height:"50px", width:"50px", padding:"10px", borderRadius:"30px"}} />}
 

@@ -29,7 +29,7 @@ const LandingPage = () => {
     // const modalStatus=true;
   return (
    <>
-   <Navbar setShowCartModal={setShowCartModal}/>
+   <Navbar setShowCartModal={setShowCartModal} showCartModal={showCartModal}/>
    <MainPageTitle/>
    <HealthyFruitsScroll/>
    <MainMenu/>

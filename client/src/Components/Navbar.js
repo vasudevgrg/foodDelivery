@@ -8,7 +8,7 @@ import { changeModalState } from '../actions';
 import {useNavigate} from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { updateCart, addItemToCart } from '../actions';
-const Navbar = ({setShowCartModal}) => {
+const Navbar = ({setShowCartModal, showCartModal}) => {
     const navigate= useNavigate();
     const dispatch= useDispatch();
     const cartItems= useSelector(e=>e.manageUpdateCart);
@@ -64,6 +64,10 @@ useEffect(()=>{
     const handleAddFoodItem=()=>{
         dispatch(changeModalState());
     }
+
+    const handleShowCartModal=()=>{
+        setShowCartModal(!showCartModal);
+    }
   return (
     <>
     <nav style={style.nav}>
@@ -78,7 +82,7 @@ useEffect(()=>{
                 <li style={style.list}>Services</li>
                 <li style={style.list}>About us</li>
                 <li style={style.list}>Contact us</li>
-                <div style={style.wrapper}>
+                <div style={style.wrapper} onClick={handleShowCartModal}>
                 <ShoppingBasketIcon/>
                 <span style={style.superscript}>{cartItems.length}</span>
                 </div>

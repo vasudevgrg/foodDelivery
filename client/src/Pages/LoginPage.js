@@ -121,7 +121,7 @@ const LoginPage = () => {
           </button>
         </div>
       </div>
-      <CartModal/>
+      
     </>
   );
 };
