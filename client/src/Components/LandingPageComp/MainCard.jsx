@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useDispatch, useSelector } from 'react-redux';
-import manageAddToCart from '../reducers/manageAddtoCart';
-import { updateCart } from '../actions';
+import manageAddToCart from '../../reducers/manageAddtoCart';
+import { updateCart } from '../../actions';
 
 const MainCard = ({title, description, price, url,id}) => {
     
 const [showAddtocart, setShowAddtocart]= React.useState(true);
 const allMenuItems= useSelector(e=>e.manageAddToCart);
 const cartItems= useSelector(e=>e.manageUpdateCart);
+
+useEffect(()=>{
+    if(cartItems.find(e=>e.product_id==id)){
+        setShowAddtocart(false);
+    }
+    console.log("add item to cart");
+    console.log(cartItems);
+},[]);
 const dispatch= useDispatch();
 
 const handleAddToCart=(id)=>{
@@ -21,7 +29,7 @@ const handleAddToCart=(id)=>{
             'Content-Type':'application/json',
             'token':localStorage.getItem("token")   
         }
-    }).then(()=>fetch("http://localhost:5002/user/cartItems", {method:"get", headers:{"token":localStorage.getItem("token")}}).then(e=>e.json()).then(e=>dispatch(updateCart(e.cartItems)))).then(()=>console.log(cartItems));
+    }).then(()=>fetch("http://localhost:5002/user/cartItems", {method:"get", headers:{"token":localStorage.getItem("token")}}).then(e=>e.json()).then(ei=>dispatch(updateCart(ei.items))));
     setShowAddtocart(false);
     
 
@@ -29,7 +37,7 @@ const handleAddToCart=(id)=>{
 
   return (
    <>
-   <div  style={{maxWidth:"300px",maxHeight:"400px", border:"1px solid black", padding:"20px"}}>
+   <div  style={{maxWidth:"300px",maxHeight:"400px", border:"1px solid black", padding:"20px", margin:"20px"}}>
    <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", alignItems:"center"}}>
     <img  src={"http://localhost:5002/image/"+url} style={{width:"200px", height:"160px", objectFit:"cover", position:"relative",top:"-50px", zIndex:"99"}}/>
 { showAddtocart &&   <AddShoppingCartIcon style={{background:"red", height:"50px", width:"50px", padding:"10px", borderRadius:"30px"}} onClick={()=>handleAddToCart(id)} />}
@@ -37,7 +45,7 @@ const handleAddToCart=(id)=>{
 
    </div>
    <div style={{display:"flex", flexDirection:"column", justifyContent:"end", alignItems:"end"}}>
-    <p>{title}</p>
+    <p style={{fontWeight:"bold"}}>{title}</p>
     <p>{description}</p>
     <p>$ {price}</p>
 

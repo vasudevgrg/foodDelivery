@@ -57,8 +57,8 @@ const Navbar = () => {
     }
 
 useEffect(()=>{
-    fetch("http://localhost:5002/user/menu").then(e=>e.json()).then(e=>e.items.map(ei=>ei.items.map(eii=>dispatch(addItemToCart(eii)))));
-    fetch("http://localhost:5002/user/cartItems", {method:"get", headers:{"token":localStorage.getItem("token")}}).then(e=>e.json()).then(e=>dispatch(updateCart(e.cartItems)))
+    // fetch("http://localhost:5002/user/menu").then(e=>e.json()).then(e=>e.items.map(ei=>ei.items.map(eii=>dispatch(addItemToCart(eii)))));
+    // fetch("http://localhost:5002/user/cartItems", {method:"get", headers:{"token":localStorage.getItem("token")}}).then(e=>e.json()).then(ei=>{console.log(ei);dispatch(updateCart(ei.items));})
 },[]);
 
     const handleAddFoodItem=()=>{

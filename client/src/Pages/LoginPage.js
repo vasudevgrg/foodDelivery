@@ -11,11 +11,28 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  // const handleGoogleLogin = () => {
+  //   fetch("http://localhost:5002/user/auth/google").then((e) => console.log(e));
+  // };
+
   const handleGoogleLogin = () => {
-    fetch("http://localhost:5002/auth/google", {
-      method: "get",
-    }).then((e) => console.log(e));
-  };
+    fetch("http://localhost:5002/user/auth/google", {
+        method: 'GET',
+        credentials: 'include', // Include cookies if needed
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then((response) => {
+        if (response.ok) {
+            console.log('Request successful:', response);
+        } else {
+            console.error('Request failed:', response);
+        }
+    }).catch((error) => {
+        console.error('Error:', error);
+    });
+};
+
 
   const handleLogin = () => {
     console.log(username);

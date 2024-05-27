@@ -1,8 +1,8 @@
 import React from 'react';
 import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 import { Button } from '@mui/material';
-import Card from './Card';
-import { StrawberryImg, bgimg } from './exportImages';
+import Card from '../Card';
+import { StrawberryImg, bgimg } from '../exportImages';
 
 
 const MainPageTitle = () => {
