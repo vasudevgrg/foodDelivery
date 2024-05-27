@@ -11,11 +11,12 @@ import MainMenu from '../Components/LandingPageComp/MainMenu';
 
 
 import { addItemToCart } from '../actions';
+import CartModal from '../Components/Cart/CartModal';
 
 
 const LandingPage = () => {
     const dispatch= useDispatch();
-  
+  const [showCartModal, setShowCartModal]= useState(false);
     React.useEffect(()=>{
         fetch("http://localhost:5002/user/menu").then(e=>e.json()).then(e=>e.items.map(ei=>ei.items.map(eii=>dispatch(addItemToCart(eii)))));
         if(localStorage.getItem("token")){
@@ -28,12 +29,15 @@ const LandingPage = () => {
     // const modalStatus=true;
   return (
    <>
-   <Navbar/>
+   <Navbar setShowCartModal={setShowCartModal}/>
    <MainPageTitle/>
    <HealthyFruitsScroll/>
    <MainMenu/>
    {
     modalStatus && <UploadCardModal/>
+   }
+   {
+    showCartModal && <CartModal/>
    }
    </>
   )

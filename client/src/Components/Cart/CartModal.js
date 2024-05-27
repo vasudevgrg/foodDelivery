@@ -17,6 +17,7 @@ const CartModal = () => {
         }).filter(item => item !== undefined);
         
         setNewItems(updatedItems);
+        console.log(menuItems);
         
     }, [cartItems, menuItems]);
 

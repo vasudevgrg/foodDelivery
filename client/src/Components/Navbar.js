@@ -8,7 +8,7 @@ import { changeModalState } from '../actions';
 import {useNavigate} from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { updateCart, addItemToCart } from '../actions';
-const Navbar = () => {
+const Navbar = ({setShowCartModal}) => {
     const navigate= useNavigate();
     const dispatch= useDispatch();
     const cartItems= useSelector(e=>e.manageUpdateCart);
